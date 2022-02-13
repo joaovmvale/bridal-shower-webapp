@@ -5,7 +5,6 @@ from .models import Person
 
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
-    # Campos que serão listados
     list_display = (
         "name",
         "email",

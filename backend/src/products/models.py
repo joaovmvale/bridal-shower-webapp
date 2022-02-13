@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 
 class Product(models.Model):
@@ -45,14 +46,44 @@ class Product(models.Model):
         default=False,
         verbose_name="Código QR",
     )
-    current_reservations = models.PositiveSmallIntegerField(
+    bought = models.PositiveSmallIntegerField(
         default=0,
-        verbose_name="Reservas atuais",
+        verbose_name="Quantidade de compras",
     )
-    reservation_limit = models.PositiveSmallIntegerField(
+    reserved = models.PositiveSmallIntegerField(
+        default=0,
+        verbose_name="Quantidade de reservas",
+    )
+    purchase_limit = models.PositiveSmallIntegerField(
         default=1,
-        verbose_name="Limite de reservas",
+        verbose_name="Limite de compras",
     )
+
+    def clean(self):
+        if self.purchase_limit <= 0:
+            raise ValidationError("O limite de reservas deve ser maior que zero")
+
+        if self.bought >= self.purchase_limit:
+            raise ValidationError(
+                "O número de compras atuais deve ser menor ou igual ao limite de compras"
+            )
+
+        if self.status == Product.StatusChoices.RESERVADO:
+            if self.reserved < self.purchase_limit:
+                raise ValidationError(
+                    "O item só pode estar com o status 'RESERVADO' caso a quantidade de reservas seja igual ao limite de compras"
+                )
+
+        if self.status == Product.StatusChoices.COMPRADO:
+            if self.bought < self.purchase_limit:
+                raise ValidationError(
+                    "O item só pode estar com o status 'COMPRADO' caso a quantidade de compras seja igual ao limite de compras"
+                )
+
+    def save(self, *args, **kwargs):
+        self.clean()
+
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "product"

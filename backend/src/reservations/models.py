@@ -17,9 +17,13 @@ class Reservation(models.Model):
         related_name="reservations",
         verbose_name="Reservado por",
     )
+    quantity = models.PositiveSmallIntegerField(
+        default=0,
+        verbose_name="Quantidade reservada",
+    )
     created_at = models.DateTimeField(
         auto_now_add=True,
-        verbose_name="Data de criação",
+        verbose_name="Data da reserva",
     )
 
     class Meta:

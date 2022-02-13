@@ -1,19 +1,19 @@
 from django.contrib import admin
 
-from .models import Product, ProductSection
+from .models import Product
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    # Campos que serão listados
     list_display = (
         "name",
         "section",
         "price",
         "suggested_link",
         "status",
-        "current_reservations",
-        "reservation_limit",
+        "reserved",
+        "bought",
+        "purchase_limit",
     )
     list_filter = (
         "status",
@@ -21,8 +21,9 @@ class ProductAdmin(admin.ModelAdmin):
     )
     search_fields = ("name",)
     ordering = (
-        "current_reservations",
-        "reservation_limit",
+        "reserved",
+        "bought",
+        "purchase_limit",
     )
     fieldsets = (
         (
@@ -37,8 +38,9 @@ class ProductAdmin(admin.ModelAdmin):
                     "status",
                     "image",
                     "qr_code",
-                    "current_reservations",
-                    "reservation_limit",
+                    "reserved",
+                    "bought",
+                    "purchase_limit",
                 ),
             },
         ),
