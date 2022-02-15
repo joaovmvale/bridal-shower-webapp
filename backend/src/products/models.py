@@ -63,9 +63,14 @@ class Product(models.Model):
         if self.purchase_limit <= 0:
             raise ValidationError("O limite de reservas deve ser maior que zero")
 
-        if self.bought >= self.purchase_limit:
+        if self.bought > self.purchase_limit:
             raise ValidationError(
                 "O número de compras atuais deve ser menor ou igual ao limite de compras"
+            )
+
+        if self.reserved > self.purchase_limit:
+            raise ValidationError(
+                "O número de reservas atuais deve ser menor ou igual ao limite de reservas"
             )
 
         if self.status == Product.StatusChoices.RESERVADO:

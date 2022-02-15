@@ -1,12 +1,12 @@
 from django.urls import path
 
-from .views import ProductViewSet
+from products.views import ProductViewSet
 
 app_name = "products"
 
 urlpatterns = [
     path(
-        "products/",
+        "list/",
         ProductViewSet.as_view(),
         name="products",
     ),
