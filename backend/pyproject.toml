@@ -1,17 +1,16 @@
 [tool.poetry]
 name = "cha-de-panela"
 version = "0.1.0"
-description = "Cha de panela da dona Bea"
+description = "Cha de casa nova da Bea"
 authors = ["joaovmvale <joao.marquesvale@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-Django = "\b"
-django-rest-framework = "^0.1.0"
 black = "^22.1.0"
 Pillow = "^9.0.1"
 flake8 = "^4.0.1"
+djangorestframework = "^3.13.1"
 
 [tool.poetry.dev-dependencies]
 black = {version = "^22.1.0", allow-prereleases = true}

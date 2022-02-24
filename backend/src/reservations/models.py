@@ -5,6 +5,10 @@ from products.models import Product
 
 
 class Reservation(models.Model):
+    class ReservationStatus(models.IntegerChoices):
+        CONFIRMED = 1, "Confirmado"
+        THINKING = 2, "Pensando"
+
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
@@ -20,6 +24,12 @@ class Reservation(models.Model):
     quantity = models.PositiveSmallIntegerField(
         default=0,
         verbose_name="Quantidade reservada",
+    )
+    reservation_status = models.IntegerField(
+        choices=ReservationStatus.choices,
+        blank=False,
+        null=False,
+        verbose_name="Status da reserva",
     )
     created_at = models.DateTimeField(
         auto_now_add=True,

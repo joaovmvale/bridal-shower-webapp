@@ -6,7 +6,7 @@ app_name = "products"
 
 urlpatterns = [
     path(
-        "list/",
+        "",
         ProductViewSet.as_view(),
         name="products",
     ),

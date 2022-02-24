@@ -11,8 +11,10 @@ class ReservationAdmin(admin.ModelAdmin):
         "quantity",
         "price",
         "person",
+        "reservation_status",
         "email",
     )
+    list_filter = ("reservation_status",)
     search_fields = (
         "product",
         "section",
