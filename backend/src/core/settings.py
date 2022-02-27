@@ -1,7 +1,16 @@
 from pathlib import Path
+import django_heroku
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Environment path
+env = environ.Env()
+env_file = BASE_DIR / ".env"
+if env_file.is_file():
+    environ.Env.read_env(str(env_file))
+del env_file
 
 
 # Quick-start development settings - unsuitable for production
@@ -11,9 +20,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-)zm3bl^@8p80-w)mv^^c@&to+f)o7l5f7@z_4#mz#d0(0)u6w="
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["https://beas-new-home.herokuapp.com/"]
 
 
 # Application definition
@@ -123,3 +132,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 REST_FRAMEWORK = {
     "EXCEPTION_HANDLER": "utils.exception_handler",
 }
+
+django_heroku.settings(locals())
