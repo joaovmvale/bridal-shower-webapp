@@ -3,7 +3,7 @@ import django_heroku
 import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 # Environment path
 env = environ.Env()
@@ -20,7 +20,7 @@ del env_file
 SECRET_KEY = "django-insecure-)zm3bl^@8p80-w)mv^^c@&to+f)o7l5f7@z_4#mz#d0(0)u6w="
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["https://beas-new-home.herokuapp.com/"]
 
@@ -50,6 +50,7 @@ INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -133,4 +134,10 @@ REST_FRAMEWORK = {
     "EXCEPTION_HANDLER": "utils.exception_handler",
 }
 
+# Heroku configuration
 django_heroku.settings(locals())
+
+# Whitenoise configuration
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
