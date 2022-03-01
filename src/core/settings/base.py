@@ -20,13 +20,12 @@ del env_file
 SECRET_KEY = "django-insecure-)zm3bl^@8p80-w)mv^^c@&to+f)o7l5f7@z_4#mz#d0(0)u6w="
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ["https://beas-new-home.herokuapp.com/"]
+ALLOWED_HOSTS = "beas-new-home.herokuapp.com, localhost, 127.0.0.1"
 
 
 # Application definition
-
 DJANGO_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
