@@ -1,3 +1,4 @@
+from core.storage_backends import PublicMediaStorage
 from django.db import models
 from django.core.exceptions import ValidationError
 
@@ -37,6 +38,7 @@ class Product(models.Model):
         verbose_name="Status do produto",
     )
     image = models.ImageField(
+        storage=PublicMediaStorage,
         upload_to="products/images/",
         blank=True,
         default="",
