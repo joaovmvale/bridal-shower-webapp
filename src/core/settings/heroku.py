@@ -1,5 +1,4 @@
 import environ
-
 from core.settings.base import *
 
 env = environ.Env()

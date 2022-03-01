@@ -4,10 +4,11 @@ import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+ROOT_DIR = BASE_DIR.parent
 
 # Environment path
 env = environ.Env()
-env_file = BASE_DIR / ".env"
+env_file = ROOT_DIR / ".env"
 if env_file.is_file():
     environ.Env.read_env(str(env_file))
 del env_file
@@ -20,7 +21,7 @@ del env_file
 SECRET_KEY = "django-insecure-)zm3bl^@8p80-w)mv^^c@&to+f)o7l5f7@z_4#mz#d0(0)u6w="
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = "beas-new-home.herokuapp.com, localhost, 127.0.0.1"
 
@@ -43,6 +44,7 @@ LOCAL_APPS = [
 
 THIRD_PARTY_APPS = [
     "rest_framework",
+    "storages",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + LOCAL_APPS + THIRD_PARTY_APPS
@@ -117,26 +119,45 @@ TIME_ZONE = "America/Sao_Paulo"
 USE_I18N = True
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.0/howto/static-files/
-
-STATIC_URL = "static/"
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Django Rest Framework configuration
+# Django Rest Framework settings
 REST_FRAMEWORK = {
     "EXCEPTION_HANDLER": "utils.exception_handler",
 }
 
-# Heroku configuration
+# Heroku settings
 django_heroku.settings(locals())
 
-# Whitenoise configuration
-STATIC_URL = "/static/"
+# Storage settings
+STATIC_URL = "/staticfiles/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+MEDIA_URL = "/mediafiles/"
+MEDIA_ROOT = BASE_DIR / "mediafiles"
+
+# AWS S3 settings
+AWS_ENABLED = env.bool("AWS_ENABLED", True)
+
+if AWS_ENABLED:
+    # AWS Settings
+    AWS_ACCESS_KEY_ID = env.str("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = env.str("AWS_SECRET_ACCESS_KEY")
+    AWS_STORAGE_BUCKET_NAME = env.str("AWS_STORAGE_BUCKET_NAME")
+    AWS_DEFAULT_ACL = "public-read"
+    AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
+    AWS_S3_OBJECT_PARAMETERS = {"CacheControl": "max-age=86400"}
+    # S3 Static settings
+    AWS_LOCATION = "static"
+    STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/"
+    STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+else:
+    STATIC_URL = "/staticfiles/"
+    STATIC_ROOT = BASE_DIR / "staticfiles"
+
+MEDIA_URL = "/mediafiles/"
+MEDIA_ROOT = BASE_DIR / "mediafiles"

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Product
+from .models import Product, ProductSection
 
 
 @admin.register(Product)
@@ -42,6 +42,21 @@ class ProductAdmin(admin.ModelAdmin):
                     "bought",
                     "purchase_limit",
                 ),
+            },
+        ),
+    )
+
+
+@admin.register(ProductSection)
+class ProductSectionAdmin(admin.ModelAdmin):
+    list_display = ("name",)
+    ordering = ("name",)
+    fieldsets = (
+        (
+            "Informações da seção",
+            {
+                "classes": ("wide",),
+                "fields": ("name",),
             },
         ),
     )
