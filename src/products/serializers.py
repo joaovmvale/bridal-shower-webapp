@@ -4,12 +4,13 @@ from products.models import Product
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    section_name = serializers.CharField(source="section.name", read_only=True)
     class Meta:
         model = Product
         fields = (
             "id",
             "name",
-            "section",
+            "section_name",
             "price",
             "suggested_link",
             "status",
@@ -19,6 +20,3 @@ class ProductSerializer(serializers.ModelSerializer):
             "reserved",
             "purchase_limit",
         )
-
-    def get_section(self, obj):
-        return obj.section.name
