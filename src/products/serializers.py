@@ -19,3 +19,6 @@ class ProductSerializer(serializers.ModelSerializer):
             "reserved",
             "purchase_limit",
         )
+
+    def get_section(self, obj):
+        return obj.section.name
