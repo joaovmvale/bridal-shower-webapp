@@ -5,13 +5,23 @@ from rest_framework.response import Response
 
 from products.models import Product
 from products.serializers import ProductSerializer
-from people.models import Person
-from reservations.models import Reservation
 from reservations.serializers import ReservationSerializer
 
 
 class ProductViewSet(APIView):
     def get(self, request, *args, **kwargs):
+        id = request.query_params.get("id", None)
+
+        if id:
+            try:
+                products = Product.objects.get(id=id)
+            except Product.DoesNotExist:
+                raise serializers.ValidationError("Product does not exist")
+
+            serializer = ProductSerializer(products)
+
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
         products = Product.objects.all()
         serializer = ProductSerializer(products, many=True)
 

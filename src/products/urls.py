@@ -6,7 +6,7 @@ app_name = "products"
 
 urlpatterns = [
     path(
-        "",
+        r"",
         ProductViewSet.as_view(),
         name="products",
     ),
